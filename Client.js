@@ -7,7 +7,8 @@ module.exports = class Client extends EventEmitter {
         super()
         if (!token) throw new Error("Missing token")
         if (token.startsWith("Bot ")) token = token.slice(4)
-        if (options.apiUrl) Db.set("apiUrl", options.apiUrl)
+        if (!options.apiUrl) options.apiUrl = "discord.com/api"
+        Db.set("apiUrl", options.apiUrl)
         Db.set("token", token)
         Db.set("heartbeat_interval", 0)
         this.gateway = new Gateway(options.ws)
