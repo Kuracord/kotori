@@ -1,0 +1,12 @@
+{
+  "name": "@keneshin/kotori",
+  "version": "1.0.0",
+  "description": "Discord API client",
+  "main": "index.js",
+  "author": "Keneshin",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "ws": "^8.5.0"
+  }
+}
