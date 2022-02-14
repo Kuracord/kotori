@@ -12,14 +12,14 @@ module.exports = class API {
         })).data
     }
     static async getGuild(guildId) {
-        return (await axios.get(`https://${Db.get("apiUrl")}/api/v9/guilds/${guildId}`, { 
+        return (await axios.get(`https://${Db.get("apiUrl")}/v9/guilds/${guildId}`, { 
             headers: {
                 Authorization: "Bot " + Db.get("token")
             }
         })).data
     }
     static async getChannel(channelId) {
-        return (await axios.get(`https://${Db.get("apiUrl")}/api/v9/channels/${channelId}`, { 
+        return (await axios.get(`https://${Db.get("apiUrl")}/v9/channels/${channelId}`, { 
             headers: {
                 Authorization: "Bot " + Db.get("token")
             }
