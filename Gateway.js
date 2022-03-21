@@ -1,14 +1,14 @@
 const EventEmitter = require("events")
 const WebSocket = require('ws')
-const Db = require("./GlobalDatabase")
 const os = require("os")
 module.exports = class Gateway extends EventEmitter {
-    constructor(options) {
+    constructor(client, options) {
         super()
         if (!options) options = {
             url: "wss://gateway.discord.gg",
             version: 9
         }
+        this.client = client
         options.url = new URL(options.url)
         options.url.searchParams.set("v", options.version)
         this.ws = new WebSocket(options.url)
@@ -41,9 +41,9 @@ module.exports = class Gateway extends EventEmitter {
         switch(packet.op) {
             case 10:
                 setInterval(() => {
-                    let heartbeat = Db.get("heartbeat_interval")
+                    let heartbeat = client.heartbeat_interval
                     heartbeat += 1
-                    Db.set("heartbeat_interval", heartbeat)
+                    client.heartbeat_interval = heartbeat
                     this.emit("debug", "[GATEWAY] Sending heartbeat")
                     this.send(JSON.stringify({
                         op: 1,
@@ -54,8 +54,8 @@ module.exports = class Gateway extends EventEmitter {
                     {
                         op: 2,
                         d: {
-                            token: Db.get("token"),
-                            intents: 513,
+                            token: this.client.getToken(),
+                            intents: !this.client.selfbot ? 513 : undefined,
                             properties: {
                                 "$os": os.platform(),
                                 "$browser": "Keneshin/kotori 0.0.1",
@@ -66,9 +66,9 @@ module.exports = class Gateway extends EventEmitter {
                 ))
                 break;
             case 1:
-                let heartbeat = Db.get("heartbeat_interval")
+                let heartbeat = client.heartbeat_interval
                 heartbeat += 1
-                Db.set("heartbeat_interval", heartbeat)
+                client.heartbeat_interval = heartbeat
                 this.send(JSON.stringify({
                     op: 1,
                     d: heartbeat

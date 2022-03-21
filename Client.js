@@ -1,6 +1,6 @@
 const EventEmitter = require('events')
 const Gateway = require('./Gateway')
-const Db = require("./GlobalDatabase")
+const Db = new Map()
 // TODO: I HATE EVENTEMITTER
 module.exports = class Client extends EventEmitter {
     constructor(token, options = {}) {
@@ -8,10 +8,11 @@ module.exports = class Client extends EventEmitter {
         if (!token) throw new Error("Missing token")
         if (token.startsWith("Bot ")) token = token.slice(4)
         if (!options.apiUrl) options.apiUrl = "discord.com/api"
+        this.selfbot = !!options.selfbot
         Db.set("apiUrl", options.apiUrl)
         Db.set("token", token)
         Db.set("heartbeat_interval", 0)
-        this.gateway = new Gateway(options.ws)
+        this.gateway = new Gateway(this, options.ws)
         this.messages = []
         this.gateway.on("raw_messageCreate", (rawMessage) => {
             this.messages.push({ key: rawMessage.id, value: rawMessage })
@@ -36,12 +37,15 @@ module.exports = class Client extends EventEmitter {
         this.gateway.on("raw", (packet) => this.emit("raw", packet))
         this.gateway.on("raw_ready", (packet) => {
             this.user = packet.user;
-            this.application_id = packet.application.id
+            if (!this.selfbot) this.application_id = packet.application.id
             Db.set("session_id", packet.session_id)
             this.emit("ready")
         })
     }
-    getToken() {
-        return Db.get("token")
+    get apiUrl() {
+        return Db.get("apiUrl")
+    }
+    getToken(prefix = true) {
+        return prefix ? (!this.selfbot ? "Bot " + Db.get("token") : Db.get("token")) : Db.get("token")
     }
 }
