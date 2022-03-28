@@ -7,7 +7,7 @@ Investigate the code to find out things you need.
 let { Client, API } = require("/path/to/kotori/dir")
 let client = new Client("your token here")
 client.on("messageCreate", (message) => {
-  if (message.content == "Ping!") API.sendMessage(message.channel_id, "Pong!")
+  if (message.content == "Ping!") API.sendMessage(client, message.channel_id, "Pong!")
 })
 client.on("ready", () => {
   console.log("Logged in as " + client.user.username + "#" + client.user.discriminator)

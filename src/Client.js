@@ -45,6 +45,12 @@ module.exports = class Client extends EventEmitter {
     get apiUrl() {
         return Db.get("apiUrl")
     }
+    get heartbeat_interval() {
+        return Db.get("heartbeat_interval")
+    }
+    set heartbeat_interval(value) {
+        return Db.set("heartbeat_interval", value)
+    }
     getToken(prefix = true) {
         return prefix ? (!this.selfbot ? "Bot " + Db.get("token") : Db.get("token")) : Db.get("token")
     }
