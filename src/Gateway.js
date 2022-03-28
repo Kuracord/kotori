@@ -41,9 +41,9 @@ module.exports = class Gateway extends EventEmitter {
         switch(packet.op) {
             case 10:
                 setInterval(() => {
-                    let heartbeat = client.heartbeat_interval
+                    let heartbeat = this.client.heartbeat_interval
                     heartbeat += 1
-                    client.heartbeat_interval = heartbeat
+                    this.client.heartbeat_interval = heartbeat
                     this.emit("debug", "[GATEWAY] Sending heartbeat")
                     this.send(JSON.stringify({
                         op: 1,
@@ -66,9 +66,9 @@ module.exports = class Gateway extends EventEmitter {
                 ))
                 break;
             case 1:
-                let heartbeat = client.heartbeat_interval
+                let heartbeat = this.client.heartbeat_interval
                 heartbeat += 1
-                client.heartbeat_interval = heartbeat
+                this.client.heartbeat_interval = heartbeat
                 this.send(JSON.stringify({
                     op: 1,
                     d: heartbeat
