@@ -28,19 +28,106 @@ declare interface Message {
     content?: string;
     channel_id: string;
     guild_id?: string;
-    attachments: Array<Attachment>;
-    mentions: Array<User>
-    mention_roles: Array<string>;
+    attachments: Attachment[];
+    mentions: User[];
+    mention_roles: string[];
     mention_everyone: boolean;
     member: Member;
     flags: number;
-    embeds: Array<Embed>;
+    embeds: Embed[];
     timestamp: string | Date;
     edited_timestamp: string | Date;
 }
+declare interface Emoji {
+    id: string;
+    name: string;
+    roles: string[];
+    require_colons: boolean;
+    managed: boolean;
+    animated: boolean;
+    available: boolean;
+}
+declare interface Sticker {
+    id: string;
+    name: string;
+    tags: string;
+    type: number;
+    format_type: number;
+    description: string;
+    asset: string;
+    guild_id: string;
+    available: boolean;
+}
+declare interface Role {
+    id: string;
+    name: string;
+    permissions: string;
+    position: number;
+    color: number;
+    hoist: boolean;
+    managed: boolean;
+    mentionable: boolean;
+    icon?: string;
+    unicode_emoji?: string;
+}
 declare interface Guild {
+    id: string;
+    name: string;
+    icon: string;
+    description?: string;
+    splash?: string;
+    discovery_splash?: string;
+    features: string[];
+    emojis: Emoji[];
+    stickers: Sticker[];
+    banner: string;
+    owner_id: string;
+    application_id?: string;
+    region?: string;
+    afk_channel_id?: string;
+    afk_timeout?: number;
+    system_channel_id: string;
+    widget_enabled: boolean;
+    widget_channel_id?: string;
+    verification_level: number;
+    roles: Role[];
+    default_message_notifications: number;
+    mfa_level: number;
+    explicit_content_filter: number;
+    max_presences?: number;
+    max_members: number;
+    max_video_channel_users: number;
+    vanity_url_code?: string;
+    premium_tier: number;
+    premium_subscription_count: number;
+    system_channel_flags: number;
+    rules_channel_id: string;
+    public_updates_channel_id: string;
+    hub_type?: number;
+    premium_progress_bar_enabled: boolean;
+    nsfw: boolean;
+    nsfw_level: number;
+}
+declare interface Permission {
+    id: string;
+    type: number;
+    allow: string;
+    deny: string;
 }
 declare interface Channel {
+    id: string;
+    last_message_id?: string;
+    default_auto_archive_duration?: number;
+    type: number;
+    name: string;
+    position: number;
+    parent_id?: string;
+    topic?: string;
+    guild_id: string;
+    permission_overwrites: Permission[];
+    last_pin_timestamp: string | Date;
+    rate_limit_per_user: number;
+    nsfw: boolean;
 }
 declare module "API" {
     export = API;
