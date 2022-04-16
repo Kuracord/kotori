@@ -9,5 +9,5 @@
     "axios": "^0.26.0",
     "ws": "^8.5.0"
   },
-  "types": "typings.d.ts"
+  "types": "./typings.d.ts"
 }

@@ -2,7 +2,11 @@ const EventEmitter = require('events')
 const Gateway = require('./Gateway')
 const Db = new Map()
 // TODO: I HATE EVENTEMITTER
+/** Client class */
 module.exports = class Client extends EventEmitter {
+    /**
+    * Create a client instance
+    */
     constructor(token, options = {}) {
         super()
         if (!token) throw new Error("Missing token")
@@ -42,6 +46,15 @@ module.exports = class Client extends EventEmitter {
             this.emit("ready")
         })
     }
+    /**
+     * Allows to use command handler
+     */
+    async withCommands(prefix = "!", options = {}) {
+        // TODO
+    }
+    /**
+     * Get discord API url
+     */
     get apiUrl() {
         return Db.get("apiUrl")
     }
@@ -51,6 +64,9 @@ module.exports = class Client extends EventEmitter {
     set heartbeat_interval(value) {
         return Db.set("heartbeat_interval", value)
     }
+    /**
+     * Get a token that instance uses
+     */
     getToken(prefix = true) {
         return prefix ? (!this.selfbot ? "Bot " + Db.get("token") : Db.get("token")) : Db.get("token")
     }

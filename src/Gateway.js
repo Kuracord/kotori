@@ -14,6 +14,9 @@ module.exports = class Gateway extends EventEmitter {
         this.ws = new WebSocket(options.url)
         this.ws.on("message", this.handlePacket.bind(this))
     }
+    /**
+     * Sends a message to a websocket. Do not use this directly.
+     */
     send(packet) {
         if (typeof packet == "object") packet = JSON.stringify(packet)
         this.ws.send(packet)
