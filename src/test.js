@@ -1,5 +1,5 @@
 const Client = require("./client.js")
-let client = new Client("OTI2NzQyNzc3Mjc3MDcxMzgw.GmKXj7.QPn2PT1xW_Duc-AcLRYJ16uwumQxIrZAiGOC6M")
+let client = new Client(process.env.TOKEN || process.argv[2])
 /*client.on("debug", (msg) => {
  if (msg.includes('"op":0')) return
  console.log(msg)
