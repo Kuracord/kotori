@@ -9,10 +9,15 @@ client.on("ready", (data) => {
 //  console.log(data)
 })
 client.on("message", async (message) => {
-  if (message.content.toLowerCase() == "hello kotori!") {
-    let time = process.hrtime()
-    await client.api.sendMessage(message.channel_id, "Say goodbye")
-    time = process.hrtime(time)
-    await client.api.sendMessage(message.channel_id, `Gayxios took ${time[0]} seconds (${time[1]} ns) to send message`)
+  if (!message.content.startsWith("k!")) return;
+  let args = message.content.slice(2).trim().split(/ +/)
+  let commandName = args.shift().toLowerCase()
+  if (commandName == "message") {
+    if (message.author.id != "925569913949683763") return;
+    client.api.sendMessage(message.channel_id, JSON.parse(args.join(" ")))
   }
+})
+client.on("interactionCreate", async (interaction) => {
+  await client.api.defer(interaction.id, interaction.token)
+  if (interaction.data.custom_id == "click_one") client.api.followUp(interaction.token, "Clicked!")
 })

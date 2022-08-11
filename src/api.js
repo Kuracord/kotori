@@ -11,5 +11,20 @@ module.exports = function register(client) {
         headers: { Authorization: client.getToken() }
       })).data
     }
+    static async followUp(token, content, options = {}) {
+      if (!client.application) throw new Error("Selfbot not supported")
+      if (typeof content == "object") options = content
+      if (typeof content == "string") options.content = content
+      return (await axios.post(`https://discord.com/api/v9/webhooks/${client.application.id}/${token}`, options, {
+        json: true,
+        headers: { Authorization: client.getToken() }
+      })).data
+    }
+    static async defer(id, token, loadingState = true) {
+      return (await axios.post(`https://discord.com/api/v9/interactions/${id}/${token}/callback`, { type: loadingState ? 5 : 6 }, {
+        json: true,
+        headers: { Authorization: client.getToken() }
+      })).data
+    }
   }
 }
