@@ -2,7 +2,7 @@ const axios = require("axios")
 module.exports = function register(client) {
   const Client = require("./client")
   if (!client instanceof Client) throw new Error("Client must be an instance of Client")
-  function axiosWithToken(url, data, headers = null) {
+  async function axiosWithToken(url, data, headers = null) {
     return (await axios.post(url, data, {
       json: true,
       headers: { Authorization: client.getToken(), ...headers }
