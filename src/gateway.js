@@ -16,6 +16,7 @@ module.exports = function register(client) {
     }
     reconnect(code) {
       if (code) client.emit("debug", "Gateway closed with code " + code)
+      if (client.intrerval) clearInterval(client.interval)
       this.#ws = new WebSocket("wss://gateway.discord.gg/?v=9&encoding=json")
       this.#ws.on("message", this.onMessage.bind(this))
       this.#ws.on("close", this.reconnect.bind(this))
