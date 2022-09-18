@@ -13,7 +13,7 @@ module.exports = class Client extends EventEmitter {
     if (typeof obj == "object") obj = JSON.stringify(obj)
     this.gateway.send(obj)
   }
-  getToken(botPrefix = true) {
-    return botPrefix ? "Bot " + this.#token : this.#token
+  getToken() {
+    return this.#token
   }
 }

@@ -1,5 +1,7 @@
+const Opcodes = require("../Opcodes")
+
 module.exports = {
-  t: "READY",
+  op: Opcodes.READY,
   execute(client, message) {
     client.session_id = message.data.session_id
     if (message.data.application) client.application = message.data.application
