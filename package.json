@@ -1,5 +1,5 @@
 {
-  "name": "@keneshin/kotori",
+  "name": "@kuracord/kotori",
   "version": "1.0.0",
   "description": "Discord API client",
   "main": "src/index.js",
